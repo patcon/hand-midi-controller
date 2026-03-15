@@ -56,51 +56,29 @@ A high-performance, real-time hand tracking MIDI controller using MediaPipe and 
 
 ## get it running in 30 seconds
 
-### option 1: automatic setup (recommended)
+requires [uv](https://docs.astral.sh/uv/getting-started/installation/).
+
 ```bash
 cd hand-midi-controller
-./setup.sh   # installs everything
-./run.sh     # runs it
-```
-
-### option 2: manual setup
-```bash
-# 1. create virtual environment (MUST be python 3.12 or lower)
-python3.12 -m venv venv
-source venv/bin/activate
-
-# 2. install dependencies
-pip install -r requirements.txt
-
-# 3. run it
-python hand_midi_controller_final.py
+uv run hand_midi_controller_final.py
+# or: ./run.sh
 ```
 
 that's it. "hand midi controller" should appear in your daw's midi inputs.
 
 ## first time setup checklist
 
-1. **check python version** - mediapipe needs 3.12 or lower:
+1. **install uv** if you don't have it:
    ```bash
-   python3 --version  # if 3.13+, won't work
-   python3.12 --version  # use this instead
+   curl -LsSf https://astral.sh/uv/install.sh | sh
    ```
 
-2. **install python 3.12 if needed**:
+2. **run it** — uv handles python and dependencies automatically:
    ```bash
-   # macos
-   brew install python@3.12
-   
-   # ubuntu/debian
-   sudo apt install python3.12 python3.12-venv
+   uv run hand_midi_controller_final.py
    ```
 
-3. **run the setup**:
-   ```bash
-   ./setup.sh  # handles everything automatically
-   ```
-
-4. **check your daw**:
+3. **check your daw**:
    - open logic pro / ableton / your daw
    - create new midi track
    - set input to "hand midi controller"
@@ -224,9 +202,9 @@ tune your setup on the fly without restarting:
 
 run with different modes:
 ```bash
-python hand_midi_controller_final.py --ui minimal  # clean, labels only
-python hand_midi_controller_final.py --ui cyberpunk # neon meters  
-python hand_midi_controller_final.py --ui debug    # verbose info
+uv run hand_midi_controller_final.py --ui minimal  # clean, labels only
+uv run hand_midi_controller_final.py --ui cyberpunk # neon meters
+uv run hand_midi_controller_final.py --ui debug    # verbose info
 ```
 
 ## performance
@@ -262,22 +240,10 @@ quick config options:
 ## common issues & fixes
 
 ### "no module named cv2" or similar errors
-you probably ran `python` instead of using the virtual environment:
+run via uv so dependencies are resolved automatically:
 ```bash
-./run.sh  # use this instead
-# or
-source venv/bin/activate
-python hand_midi_controller_final.py
-```
-
-### "python 3.12 not found"
-```bash
-# check what you have
-python3 --version
-
-# install 3.12
-brew install python@3.12        # macos
-sudo apt install python3.12     # linux
+uv run hand_midi_controller_final.py
+# or: ./run.sh
 ```
 
 ### "no hands detected"
@@ -295,9 +261,9 @@ sudo apt install python3.12     # linux
 ### still stuck?
 ```bash
 # clean install
-rm -rf venv
-./setup.sh
-./run.sh
+rm -rf .venv
+uv sync
+uv run hand_midi_controller_final.py
 ```
 
 ## advanced
